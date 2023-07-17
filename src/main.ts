@@ -1,7 +1,5 @@
 import "./style.css";
 
-console.log("Hello Typescript!");
-
 type Especialidad = "Medico de familia" | "Pediatra" | "Cardiólogo";
 
 interface Pacientes {
@@ -81,52 +79,127 @@ const pacientes: Pacientes[] = [
 document.addEventListener("DOMContentLoaded", () => {
   //////////////////////////   APARTADO 1   //////////////////////////
 
-  let listaPacientesPediatria: Pacientes[] = [];
-
   const obtenPacientesAsignadosAPediatria = (pacientes: Pacientes[]) => {
-    listaPacientesPediatria.push(...pacientes);
-  };
-
-  for (let i = 0; i < pacientes.length; i++) {
-    if (pacientes[i].especialidad == "Pediatra") {
-      obtenPacientesAsignadosAPediatria([pacientes[i]]);
+    let listaPacientesPediatria: Pacientes[] = [];
+    for (let i = 0; i < pacientes.length; i++) {
+      if (pacientes[i].especialidad == "Pediatra") {
+        listaPacientesPediatria.push(pacientes[i]);
+      }
     }
-  }
-
-  let listaPacientesPediatriaMenoresDe10: Pacientes[] = [];
+    console.log("Pediatria: ", listaPacientesPediatria);
+  };
+  obtenPacientesAsignadosAPediatria(pacientes);
 
   const obtenPacientesAsignadosAPediatriaMenoresDe10 = (
     pacientes: Pacientes[]
   ) => {
-    listaPacientesPediatriaMenoresDe10.push(...pacientes);
-  };
-
-  for (let i = 0; i < pacientes.length; i++) {
-    if (pacientes[i].especialidad == "Pediatra" && pacientes[i].edad < 10) {
-      obtenPacientesAsignadosAPediatriaMenoresDe10([pacientes[i]]);
+    let listaPacientesPediatriaMenoresDe10: Pacientes[] = [];
+    for (let i = 0; i < pacientes.length; i++) {
+      if (pacientes[i].especialidad == "Pediatra" && pacientes[i].edad < 10) {
+        listaPacientesPediatriaMenoresDe10.push(pacientes[i]);
+      }
     }
-  }
-
-  console.log("Pediatria: ", listaPacientesPediatria);
-  console.log("Pediatria, menores de 10: ", listaPacientesPediatriaMenoresDe10);
+    console.log(
+      "Pediatria, menores de 10: ",
+      listaPacientesPediatriaMenoresDe10
+    );
+  };
+  obtenPacientesAsignadosAPediatriaMenoresDe10(pacientes);
 
   //////////////////////////   APARTADO 2   //////////////////////////
 
   const activarProtocoloUrgencia = (pacientes: Pacientes[]): boolean => {
     let activarProctolo = false;
-    let pacientesUrgencias = [];
-
-    activarProctolo = true;
-    pacientesUrgencias.push(...pacientes);
-    return activarProctolo;
-    console.log("Protocolo de urgencia activado? ", activarProctolo);
-  };
-  for (let i = 0; i < pacientes.length; i++) {
-    if (
-      pacientes[i].temperatura > 39 &&
-      pacientes[i].frecuenciaCardiaca > 100
-    ) {
-      activarProtocoloUrgencia([pacientes[i]]);
+    for (let i = 0; i < pacientes.length; i++) {
+      if (
+        pacientes[i].temperatura > 39 &&
+        pacientes[i].frecuenciaCardiaca > 100
+      ) {
+        activarProctolo = true;
+        break;
+      }
     }
+    return activarProctolo;
+  };
+
+  console.log(
+    "Protocolo de urgencia activado? ",
+    activarProtocoloUrgencia(pacientes)
+  );
+
+  //////////////////////////   APARTADO 3   //////////////////////////
+
+  const reasignaPacientesAMedicoFamilia = (
+    pacientes: Pacientes[]
+  ): Pacientes[] => {
+    let pacientesPediatraCambiadosMedicoFamilia: Pacientes[] = [];
+    for (let i = 0; i < pacientes.length; i++) {
+      pacientesPediatraCambiadosMedicoFamilia.push(pacientes[i]);
+      if (pacientes[i].especialidad == "Pediatra") {
+        Object.defineProperty(
+          pacientesPediatraCambiadosMedicoFamilia[i],
+          "especialidad",
+          { value: "Medico de familia" }
+        );
+      }
+    }
+    return pacientesPediatraCambiadosMedicoFamilia;
+  };
+  console.log(
+    "Pacientes con medicos reasignados: ",
+    reasignaPacientesAMedicoFamilia(pacientes)
+  );
+
+  //////////////////////////   APARTADO 4   //////////////////////////
+
+  //////////////-------------DOUBLECHECK----------------////////////////////
+  //////////////////////////reasignaPacientesAMedicoFamilia modifies especialidad globally
+  ////////////////////////////////////////////////////
+
+  const HayPacientesDePediatria = (pacientes: Pacientes[]): boolean => {
+    let hayPacientes: boolean = false;
+    for (let i = 0; i < pacientes.length; i++) {
+      if (pacientes[i].especialidad == "Pediatra") {
+        hayPacientes = true;
+        break;
+      }
+    }
+    return hayPacientes;
+  };
+  console.log(
+    "Hay pacientes para pediatria: ",
+    HayPacientesDePediatria(pacientes)
+  );
+
+  //////////////////////////   APARTADO 5   //////////////////////////
+
+  interface NumeroPacientesPorEspecialidad {
+    medicoDeFamilia: number;
+    pediatria: number;
+    cardiologia: number;
   }
+
+  const cuentaPacientesPorEspecialidad = (
+    pacientes: Pacientes[]
+  ): NumeroPacientesPorEspecialidad => {
+    let numeroPacientesPorEspeciadadlidad: NumeroPacientesPorEspecialidad = {
+      medicoDeFamilia: 0,
+      pediatria: 0,
+      cardiologia: 0,
+    };
+    for (let i = 0; i < pacientes.length; i++) {
+      if (pacientes[i].especialidad == "Medico de familia") {
+        numeroPacientesPorEspeciadadlidad.medicoDeFamilia += 1;
+      } else if (pacientes[i].especialidad == "Pediatra") {
+        numeroPacientesPorEspeciadadlidad.pediatria += 1;
+      } else if (pacientes[i].especialidad == "Cardiólogo") {
+        numeroPacientesPorEspeciadadlidad.cardiologia += 1;
+      }
+    }
+    return numeroPacientesPorEspeciadadlidad;
+  };
+  console.log(
+    "Numero de pacientes por expecialidad: ",
+    cuentaPacientesPorEspecialidad(pacientes)
+  );
 });
