@@ -136,11 +136,10 @@ document.addEventListener("DOMContentLoaded", () => {
     for (let i = 0; i < pacientes.length; i++) {
       pacientesPediatraCambiadosMedicoFamilia.push(pacientes[i]);
       if (pacientes[i].especialidad == "Pediatra") {
-        Object.defineProperty(
-          pacientesPediatraCambiadosMedicoFamilia[i],
-          "especialidad",
-          { value: "Medico de familia" }
-        );
+        pacientesPediatraCambiadosMedicoFamilia[i] = {
+          ...pacientesPediatraCambiadosMedicoFamilia[i],
+          especialidad: "Medico de familia",
+        };
       }
     }
     return pacientesPediatraCambiadosMedicoFamilia;
@@ -151,10 +150,6 @@ document.addEventListener("DOMContentLoaded", () => {
   );
 
   //////////////////////////   APARTADO 4   //////////////////////////
-
-  //////////////-------------DOUBLECHECK----------------////////////////////
-  //////////////////////////reasignaPacientesAMedicoFamilia modifies especialidad globally
-  ////////////////////////////////////////////////////
 
   const HayPacientesDePediatria = (pacientes: Pacientes[]): boolean => {
     let hayPacientes: boolean = false;
