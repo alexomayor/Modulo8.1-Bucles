@@ -86,9 +86,9 @@ document.addEventListener("DOMContentLoaded", () => {
         listaPacientesPediatria.push(pacientes[i]);
       }
     }
-    console.log("Pediatria: ", listaPacientesPediatria);
+    return listaPacientesPediatria;
   };
-  obtenPacientesAsignadosAPediatria(pacientes);
+  console.log("Pediatria: ", obtenPacientesAsignadosAPediatria(pacientes));
 
   const obtenPacientesAsignadosAPediatriaMenoresDe10 = (
     pacientes: Pacientes[]
@@ -99,12 +99,13 @@ document.addEventListener("DOMContentLoaded", () => {
         listaPacientesPediatriaMenoresDe10.push(pacientes[i]);
       }
     }
-    console.log(
-      "Pediatria, menores de 10: ",
-      listaPacientesPediatriaMenoresDe10
-    );
+
+    return listaPacientesPediatriaMenoresDe10;
   };
-  obtenPacientesAsignadosAPediatriaMenoresDe10(pacientes);
+  console.log(
+    "Pediatria, menores de 10: ",
+    obtenPacientesAsignadosAPediatriaMenoresDe10(pacientes)
+  );
 
   //////////////////////////   APARTADO 2   //////////////////////////
 
@@ -196,5 +197,41 @@ document.addEventListener("DOMContentLoaded", () => {
   console.log(
     "Numero de pacientes por expecialidad: ",
     cuentaPacientesPorEspecialidad(pacientes)
+  );
+
+  const cuentaPacientesPorEspecialidad2 = (
+    pacientes: Pacientes[]
+  ): NumeroPacientesPorEspecialidad => {
+    let numeroPacientesPorEspeciadadlidad: NumeroPacientesPorEspecialidad = {
+      medicoDeFamilia: 0,
+      pediatria: 0,
+      cardiologia: 0,
+    };
+    numeroPacientesPorEspeciadadlidad.medicoDeFamilia =
+      calculaPacientesPorEspecialidad(pacientes, "Medico de familia");
+    numeroPacientesPorEspeciadadlidad.pediatria =
+      calculaPacientesPorEspecialidad(pacientes, "Pediatra");
+    numeroPacientesPorEspeciadadlidad.cardiologia =
+      calculaPacientesPorEspecialidad(pacientes, "Cardiólogo");
+
+    return numeroPacientesPorEspeciadadlidad;
+  };
+
+  function calculaPacientesPorEspecialidad(
+    pacientes: Pacientes[],
+    espec: Especialidad
+  ): number {
+    let numeroPacientes = 0;
+    for (let i = 0; i < pacientes.length; i++) {
+      if (pacientes[i].especialidad === espec) {
+        numeroPacientes += 1;
+      }
+    }
+    return numeroPacientes;
+  }
+
+  console.log(
+    "Numero de pacientes por expecialidad: ",
+    cuentaPacientesPorEspecialidad2(pacientes)
   );
 });
